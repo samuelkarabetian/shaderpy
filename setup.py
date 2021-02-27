@@ -10,9 +10,10 @@ classifiers = [
 
 setup(
     name='shaderpy',
-    version='0.0.1',
+    version='0.0.4',
     description='A simple shader package for Pyglet.',
-    long_description=open('README.md').read() + '\n\n' + open('CHANGELOG.txt').read(),
+    long_description=open('README.md').read() + '\n' + open('CHANGELOG.md').read(),
+    long_description_content_type='text/markdown',
     url='',
     author='Samuel Karabetian',
     license='MIT',

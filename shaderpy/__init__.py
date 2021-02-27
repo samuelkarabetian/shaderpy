@@ -24,10 +24,14 @@ class Shader:
             gl.glShaderSource(shader, 1, source_buffer_pointer, byref(length))
             gl.glCompileShader(shader)
 
-            compile_status = gl.GLint()
-            gl.glGetShaderiv(shader, gl.GL_COMPILE_STATUS, pointer(compile_status))
-            if compile_status == gl.GL_FALSE:
-                print("Failed to compile shader")
+            compile_status = c_int(0)
+            gl.glGetShaderiv(shader, gl.GL_COMPILE_STATUS, byref(compile_status))
+            if not compile_status:
+                log_length = c_int(0)
+                gl.glGetShaderiv(shader, gl.GL_INFO_LOG_LENGTH, byref(log_length))
+                log = create_string_buffer(log_length.value)
+                gl.glGetShaderInfoLog(shader, log_length, None, log)
+                raise ValueError('At path: \'' + path + '\'\n' + log.value.decode())
 
             shaders.append(shader)
 
@@ -37,6 +41,14 @@ class Shader:
             gl.glAttachShader(self.program, shader)
 
         gl.glLinkProgram(self.program)
+        link_status = c_int(0)
+        gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS, byref(link_status))
+        if not link_status:
+            log_length = c_int(0)
+            gl.glGetProgramiv(self.program, gl.GL_INFO_LOG_LENGTH, byref(log_length))
+            log = create_string_buffer(log_length.value)
+            gl.glGetProgramInfoLog(self.program, log_length, None, log)
+            raise ValueError(log.value.decode())
 
         for shader in shaders:
             gl.glDeleteShader(shader)
