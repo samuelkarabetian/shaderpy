@@ -2,7 +2,7 @@
 
 A small shader package for Pyglet.
 
-# Documentation
+## Documentation
 
 Creating a shader:
 
@@ -47,7 +47,7 @@ Deleting a shader:
 shader.delete()
 ```
 
-# Installation
+## Installation
 
 ```
 pip install shaderpy
