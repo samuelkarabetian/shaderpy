@@ -1,6 +1,6 @@
 # Shaderpy
 
-A small shader package for Pyglet.
+A small shader library for Pyglet.
 
 ## Documentation
 
